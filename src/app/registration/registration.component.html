@@ -35,7 +35,7 @@
       <div class="row" *ngIf="!hasUnitNumber">
         <div class="col">
           <button mat-button type="button" (click)="hasUnitNumber = !hasUnitNumber">
-            + Add C/O, Apt, Suite, Unit
+            + Add Address
           </button>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput #postalCode maxlength="6" placeholder="Postal Code" type="number" formControlName="postalCode">
-            <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+            <mat-hint align="end">{{postalCode.value.length}} / 6</mat-hint>
           </mat-form-field>
         </div>
       </div>
