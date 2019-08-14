@@ -23,6 +23,90 @@
         </div>
       </div>
       <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput type="email" placeholder="Email Address" formControlName="emailAddress">
+              <mat-error *ngIf="registrationForm.controls['emailAddress'].hasError('required')">
+                A <strong>valid</strong> Email is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+              <mat-error *ngIf="registrationForm.controls['phoneNumber'].hasError('required')">
+                Phone number is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput type="email" placeholder="Date of Birth" formControlName="dateOfBirth">
+              <mat-error *ngIf="registrationForm.controls['dateOfBirth'].hasError('required')">
+                Date of birth is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Tryout Location" formControlName="tryOutLocation">
+                <mat-option *ngFor="let location of tryOutLocations" [value]="location">
+                  {{location}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrationForm.controls['tryOutLocation'].hasError('required')">
+                Tryout location is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="Preferred position" formControlName="preferredPosition">
+                  <mat-option *ngFor="let position of playerPositions" [value]="position">
+                    {{position}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="registrationForm.controls['preferredPosition'].hasError('required')">
+                  Preferred position is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Alternative position" formControlName="alternativePosition">
+                <mat-option *ngFor="let position of playerPositions" [value]="position">
+                  {{position}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrationForm.controls['tryOutLocation'].hasError('required')">
+                Tryout location is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Height" formControlName="height">
+            <mat-error *ngIf="registrationForm.controls['height'].hasError('required')">
+              Height is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Weight" formControlName="weight">
+            <mat-error *ngIf="registrationForm.controls['weight'].hasError('required')">
+              Weight is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
             <textarea matInput placeholder="Address" formControlName="address"></textarea>
@@ -87,7 +171,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button [disabled]="!registrationForm.valid" mat-raised-button color="primary" type="submit">Submit</button>
+      <button [disabled]="registrationForm.valid" mat-raised-button color="primary" type="submit">Submit</button>
     </mat-card-actions>
   </mat-card>
 </form>

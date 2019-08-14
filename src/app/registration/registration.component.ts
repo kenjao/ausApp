@@ -10,6 +10,22 @@ export class RegistrationComponent {
   registrationForm = this.fb.group({
     firstName: [null, Validators.required],
     lastName: [null, Validators.required],
+    emailAddress: [null, Validators.email],
+    phoneNumber: [null, Validators.required],
+    dateOfBirth: [null, Validators.required],
+    tryOutLocation: [null, Validators.required],
+    preferredPosition: [null, Validators.required],
+    alternativePosition: [null, Validators.required],
+    height: [null, Validators.required],
+    weight: [null, Validators.required],
+    potentialCourseOfStudy: [null, Validators.required],
+    haveYouTakenSAT: [null, Validators.required],
+    satScore: null,
+    haveYouTakenWAEC: [null, Validators.required],
+    howDidYouHearOfUs: [null, Validators.required],
+    howDidYouHearOfUsOthers: null,
+    iAgree: [null, Validators.required],
+
     address: [null, Validators.required],
     address2: null,
     city: [null, Validators.required],
@@ -21,6 +37,13 @@ export class RegistrationComponent {
   });
 
   hasUnitNumber = false;
+  howDidYouHearOther = false;
+  hasWAEC = false;
+  satTaken = false;
+
+  tryOutLocations = ['Abuja', 'Port Harcourt', 'Enugu', 'Ibadan', 'Lagos'];
+  playerPositions = ['Left Back', 'Right Back', 'Center Back', 'Defensive Midfield',
+   'Center Midfield', 'Attacking Midfield', 'Winger', 'Forward'];
 
   states = [
     {name: 'Alabama', abbreviation: 'AL'},
@@ -88,5 +111,6 @@ export class RegistrationComponent {
 
   onSubmit() {
     alert('Thanks!');
+    console.log(JSON.stringify(this.registrationForm.controls['emailAddress'].errors));
   }
 }
