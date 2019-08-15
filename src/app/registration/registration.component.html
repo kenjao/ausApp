@@ -43,7 +43,9 @@
       <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput type="email" placeholder="Date of Birth" formControlName="dateOfBirth">
+              <input matInput (click)="dobPicker.open()" placeholder="Date of Birth" [max]="maxDate" [matDatepicker]="dobPicker" formControlName="dateOfBirth">
+              <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #dobPicker></mat-datepicker>
               <mat-error *ngIf="registrationForm.controls['dateOfBirth'].hasError('required')">
                 Date of birth is <strong>required</strong>
               </mat-error>
@@ -109,68 +111,78 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Address" formControlName="address"></textarea>
-            <mat-error *ngIf="registrationForm.controls['address'].hasError('required')">
-              Address is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row" *ngIf="!hasUnitNumber">
-        <div class="col">
-          <button mat-button type="button" (click)="hasUnitNumber = !hasUnitNumber">
-            + Add Extra Address Information
-          </button>
-        </div>
-      </div>
-      <div class="row" *ngIf="hasUnitNumber">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <textarea matInput placeholder="Address 2" formControlName="address2"></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="City" formControlName="city">
-            <mat-error *ngIf="registrationForm.controls['city'].hasError('required')">
-              City is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="full-width">
-            <mat-select placeholder="State" formControlName="state">
-              <mat-option *ngFor="let state of states" [value]="state.abbreviation">
-                {{ state.name }}
+            <mat-select (selectionChange)="howYouHeardCheck()" placeholder="How did you hear of us?" formControlName="howDidYouHearOfUs">
+              <mat-option *ngFor="let howdy of howYouHeard" [value]="howdy">
+                {{howdy}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="registrationForm.controls['state'].hasError('required')">
-              State is <strong>required</strong>
+            <mat-error *ngIf="registrationForm.controls['howDidYouHearOfUs'].hasError('required')">
+              Info is <strong>required</strong>
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput #postalCode maxlength="6" placeholder="Postal Code" type="number" formControlName="postalCode">
-            <mat-hint align="end">{{postalCode.value.length}} / 6</mat-hint>
-          </mat-form-field>
+        <div class="col" >
+          <span *ngIf="howDidYouHearOther">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Please tell us how you heard of us" formControlName="howDidYouHearOfUsOthers">
+            </mat-form-field>
+          </span>
         </div>
       </div>
       <div class="row">
-        <div class="col">
-          <mat-radio-group formControlName="skillLevel">
-            <mat-radio-button value="beginner">Beginner</mat-radio-button>
-            <mat-radio-button value="intermediate">Intermediate</mat-radio-button>
-            <mat-radio-button value="experienced">Experienced</mat-radio-button>
-          </mat-radio-group>
+        <div class="col"> <!-- First column -->
+          <div class="row">
+              <div class="col">
+                <label id="waecEnquiry">Have you taken WAEC</label>
+                <mat-radio-group id="waecEnquiry" formControlName="haveYouTakenWAEC">
+                  <mat-radio-button value="yes">Yes</mat-radio-button>
+                  <mat-radio-button value="no">No</mat-radio-button>
+                  <mat-radio-button value="not yet">Not Yet</mat-radio-button>
+                </mat-radio-group>
+                <mat-error *ngIf="registrationForm.controls['haveYouTakenWAEC'].hasError('required')">
+                  WAEC enquiry is <strong>required</strong>
+                </mat-error>
+              </div>
+              <div class="col">
+                <label id="satEnquiry">Have you taken SAT</label>
+                <mat-radio-group id="satEnquiry" (change)="checkSAT()" formControlName="haveYouTakenSAT">
+                  <mat-radio-button value="yes">Yes</mat-radio-button>
+                  <mat-radio-button value="no">No</mat-radio-button>
+                  <mat-radio-button value="not yet">Not Yet</mat-radio-button>
+                </mat-radio-group>
+                <mat-error *ngIf="registrationForm.controls['haveYouTakenSAT'].hasError('required')">
+                  SAT enquiry is <strong>required</strong>
+                </mat-error>
+              </div>
+          </div>
+        </div>
+        <div class="col">   <!-- Second column -->
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Potential course of study" formControlName="potentialCourseOfStudy">
+              <mat-error *ngIf="registrationForm.controls['potentialCourseOfStudy'].hasError('required')">
+                Potential course of study is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <span *ngIf="satTaken">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="SAT Score" formControlName="satScore">
+              </mat-form-field>
+            </span>
+          </div>
         </div>
       </div>
+      <div class="row">
+        <div class="mt-2p">
+            <mat-checkbox formControlName="iAgree">I agree by clicking this button that all information I have provided is correct to the best of mu knowledge. This also certifies that I have read and greed to the terms and conditions of this registration.</mat-checkbox>
+        </div>
+      </div>
+      
+      
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions class="mb-2p">
       <button [disabled]="registrationForm.valid" mat-raised-button color="primary" type="submit">Submit</button>
     </mat-card-actions>
   </mat-card>

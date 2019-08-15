@@ -18,32 +18,25 @@ export class RegistrationComponent {
     alternativePosition: [null, Validators.required],
     height: [null, Validators.required],
     weight: [null, Validators.required],
+    haveYouTakenWAEC: ['not yet', Validators.required],
+    haveYouTakenSAT: ['not yet', Validators.required],
     potentialCourseOfStudy: [null, Validators.required],
-    haveYouTakenSAT: [null, Validators.required],
     satScore: null,
-    haveYouTakenWAEC: [null, Validators.required],
     howDidYouHearOfUs: [null, Validators.required],
     howDidYouHearOfUsOthers: null,
-    iAgree: [null, Validators.required],
-
-    address: [null, Validators.required],
-    address2: null,
-    city: [null, Validators.required],
-    state: [null, Validators.required],
-    postalCode: [null, Validators.compose([
-      Validators.required, Validators.minLength(5), Validators.maxLength(6)])
-    ],
-    skillLevel: ['beginner', Validators.required]
+    iAgree: [null, Validators.required]
   });
 
   hasUnitNumber = false;
   howDidYouHearOther = false;
   hasWAEC = false;
   satTaken = false;
+  maxDate = new Date();
 
   tryOutLocations = ['Abuja', 'Port Harcourt', 'Enugu', 'Ibadan', 'Lagos'];
   playerPositions = ['Left Back', 'Right Back', 'Center Back', 'Defensive Midfield',
    'Center Midfield', 'Attacking Midfield', 'Winger', 'Forward'];
+  howYouHeard = ['Radio', 'Instagram', 'Facebook', 'Friend', 'Family', 'Newspaper', 'Google', 'Other'];
 
   states = [
     {name: 'Alabama', abbreviation: 'AL'},
@@ -110,7 +103,27 @@ export class RegistrationComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit() {
-    alert('Thanks!');
-    console.log(JSON.stringify(this.registrationForm.controls['emailAddress'].errors));
+    if(!this.registrationForm.controls.iAgree.value){
+      alert('Please accept the terms and conditions to continue');
+      return;
+    }
+  }
+
+  checkSAT() {
+    if (this.registrationForm.controls.haveYouTakenSAT.value === 'yes') {
+      this.satTaken = true;
+      return;
+    }
+
+    this.satTaken = false;
+  }
+
+  howYouHeardCheck() {
+    if (this.registrationForm.controls.howDidYouHearOfUs.value === 'Other') {
+      this.howDidYouHearOther = true;
+      return;
+    }
+
+    this.howDidYouHearOther = false;
   }
 }
